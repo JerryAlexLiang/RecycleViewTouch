@@ -8,14 +8,14 @@ package com.liangyang.recycleviewtouch.bean;
 public class DataBean {
 
     private String name;
-    private String message;
     private String time;
+    private String message;
     private int image_id;
 
-    public DataBean(String name, String message, String time, int image_id) {
+    public DataBean(String name, String time, String message, int image_id) {
         this.name = name;
-        this.message = message;
         this.time = time;
+        this.message = message;
         this.image_id = image_id;
     }
 
@@ -27,20 +27,20 @@ public class DataBean {
         this.name = name;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public String getTime() {
         return time;
     }
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public int getImage_id() {

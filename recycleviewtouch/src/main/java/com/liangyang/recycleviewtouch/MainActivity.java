@@ -48,8 +48,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                 //首先回调的方法 返回int表示是否监听该方向
-                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;//拖拽
-                int swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;//删除
+                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN|ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT;//拖拽手势
+//                int swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;//删除
+                int swipeFlags = 0;//不删除
                 return makeMovementFlags(dragFlags,swipeFlags);
             }
 
