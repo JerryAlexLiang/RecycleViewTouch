@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                     mRecycleView.setLayoutManager(linearLayoutManager);
                 }
-
                 break;
         }
 
