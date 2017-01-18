@@ -1,5 +1,6 @@
 package com.liangyang.recycleviewtouch;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -48,23 +49,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
                 //首先回调的方法 返回int表示是否监听该方向
-                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN|ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT;//拖拽手势
+                int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;//拖拽手势
 //                int swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;//删除
                 int swipeFlags = 0;//不删除
-                return makeMovementFlags(dragFlags,swipeFlags);
+                return makeMovementFlags(dragFlags, swipeFlags);
             }
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 //滑动事件
-                Collections.swap(dataBeanList,viewHolder.getAdapterPosition(),target.getAdapterPosition());
-                adapter.notifyItemMoved(viewHolder.getAdapterPosition(),target.getAdapterPosition());
+                Collections.swap(dataBeanList, viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                adapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 return false;
             }
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                  //侧滑删除事件
+                //侧滑删除事件
                 dataBeanList.remove(viewHolder.getAdapterPosition());
                 adapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
@@ -83,7 +84,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 初始化监听事件
      */
     private void initListener() {
+        //转换模式按钮点击监听事件
         mStitchBtn.setOnClickListener(this);
+        //RecyclerView的setOnItemClickListener回调监听事件
+        adapter.setOnItemClickListener(new RecycleViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //跳转页面
+                Intent intent = new Intent(MainActivity.this, ContentActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", dataBeanList.get(position).getName());
+                bundle.putString("time", dataBeanList.get(position).getTime());
+                bundle.putString("message", dataBeanList.get(position).getMessage());
+                bundle.putInt("image_id",dataBeanList.get(position).getImage_id());
+                intent.putExtra("data",bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -23,6 +23,20 @@ import java.util.List;
  */
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.MyViewHolder> {
 
+    /**
+     * 自定义构造RecyclerView的setOnItemClickListener这个回调
+     */
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    private OnItemClickListener mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener = mOnItemClickListener;
+    }
+
+
     private List<DataBean> dataBeanList;
     private Context context;
     private LayoutInflater mInflater;
@@ -35,13 +49,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     /**
      * 创建ViewHolder
+     *
      * @param parent
      * @param viewType
      * @return
      */
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.recycle_view_item,parent,false);
+        View view = mInflater.inflate(R.layout.recycle_view_item, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
         //return new MyViewHolder(view);
@@ -49,11 +64,12 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     /**
      * 将数据绑定到ViewHolder，设置值
+     *
      * @param holder
      * @param position
      */
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         //数据映射
         DataBean dataBean = dataBeanList.get(position);
         holder.name.setText(dataBean.getName());
@@ -61,15 +77,29 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         holder.message.setText(dataBean.getMessage());
         holder.imageView.setImageResource(dataBean.getImage_id());
 //        holder.imageView.setBackgroundResource(dataBean.getImage_id());
+
+        /**
+         * 如果设置了回调，则设置点击事件
+         */
+        if (mOnItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //mOnItemClickListener.onItemClick(holder.imageView,position);
+                    mOnItemClickListener.onItemClick(holder.imageView,position);
+                }
+            });
+        }
     }
 
     /**
      * 获取总的条目数
+     *
      * @return
      */
     @Override
     public int getItemCount() {
-        return dataBeanList.size();
+        return dataBeanList == null ? 0 : dataBeanList.size();
     }
 
     /**
@@ -78,9 +108,9 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
      * 2、其实创建的是一个适配器
      * Created by Jerry
      */
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView name,time,message;
+        private TextView name, time, message;
         private ImageView imageView;
 
         public MyViewHolder(View itemView) {
