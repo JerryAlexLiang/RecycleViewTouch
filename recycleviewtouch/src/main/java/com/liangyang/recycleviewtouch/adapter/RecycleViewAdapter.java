@@ -86,7 +86,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 @Override
                 public void onClick(View view) {
                     //mOnItemClickListener.onItemClick(holder.imageView,position);
-                    mOnItemClickListener.onItemClick(holder.imageView,position);
+//                    mOnItemClickListener.onItemClick(holder.imageView,position);
+                    //传入的条目位置索引应该使用getLayoutPosition()（getPosition()被抛弃）方法来获取，这样就不会出现条目紊乱
+                    mOnItemClickListener.onItemClick(holder.imageView,holder.getLayoutPosition());
+
                 }
             });
         }

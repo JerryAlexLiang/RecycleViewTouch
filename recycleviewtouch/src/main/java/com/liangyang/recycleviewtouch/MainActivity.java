@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 bundle.putInt("image_id",dataBeanList.get(position).getImage_id());
                 intent.putExtra("data",bundle);
                 startActivity(intent);
+                //刷新适配器
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -150,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dataBeanList.add(new DataBean("Hensen", "下午1:22", "哈哈哈", R.drawable.icon1));
         dataBeanList.add(new DataBean("Hensen", "下午1:22", "老板：哈哈哈", R.drawable.icon1));
         dataBeanList.add(new DataBean("流年不利", "下午上10:31", "美女：呵呵哒", R.drawable.icon2));
+
     }
 
     /**
